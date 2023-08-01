@@ -1,4 +1,4 @@
-import { Database } from '../src/middlewares/database.js';
+import { Database } from '../src/config/database.js';
 import readline from "readline"
 import  fs from "fs"
 import { randomUUID } from 'crypto';

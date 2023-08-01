@@ -2,7 +2,7 @@
 import http from 'node:http';
 import { Http2ServerRequest } from 'node:http2';
 import { json } from './middlewares/json.js';
-import { routes } from './middlewares/routes.js';
+import { routes } from './routes.js';
 import { extractQueryParams } from './utils/extract-query-params.js';
 
 

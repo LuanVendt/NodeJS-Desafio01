@@ -1,9 +1,9 @@
 import { request } from 'node:http';
-import { Database } from './database.js';
+import { Database } from './config/database.js';
 import { randomUUID } from 'node:crypto'
-import { buildRoutePath } from '../utils/build-route-path.js';
+import { buildRoutePath } from './utils/build-route-path.js';
 import multer from 'multer';
-import multerConfig from '../config/multer.js'
+import multerConfig from './config/multer.js'
 
 const upload = multer(multerConfig)
 
