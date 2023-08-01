@@ -3,7 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 
 const storageTypes = multer.diskStorage({
-  destination: path.resolve(__dirname, '..', '..', 'tmp', 'uploads'),
+  destination: path.resolve('D:/Treinamento/Ignite/nodejs/NodeJS-Desafio01/src/config', '..', '..', 'tmp', 'uploads'),
   filename: (req, file, cb) => {
     crypto.randomBytes(16, (err, res) => {
       if (err) return cb(err);
@@ -16,7 +16,7 @@ const storageTypes = multer.diskStorage({
 });
 
 export default {
-  dest: path.resolve(__dirname, '..', '..', 'tmp', 'uploads'),
+  dest: path.resolve('D:/Treinamento/Ignite/nodejs/NodeJS-Desafio01/src/config', '..', '..', 'tmp', 'uploads'),
   storage: storageTypes,
   limits: {
     fileSize: 2 * 1024 * 1024,

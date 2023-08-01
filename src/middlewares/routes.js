@@ -2,6 +2,10 @@ import { request } from 'node:http';
 import { Database } from './database.js';
 import { randomUUID } from 'node:crypto'
 import { buildRoutePath } from '../utils/build-route-path.js';
+import multer from 'multer';
+import multerConfig from '../config/multer.js'
+
+const upload = multer(multerConfig)
 
 
 
@@ -28,8 +32,8 @@ export const routes = [
         method: 'POST',
         path: buildRoutePath('/tasks-pdf'),
         handler: (request, response) => {
-            console.log(request.database)
-           const { title, description } = request.file.path
+             console.log(request)
+           const { title, description } = request.body
 
             const task = {
                 id: randomUUID(),
@@ -37,6 +41,7 @@ export const routes = [
                 description: request.description,
             }
 
+            database.insert('tasks', task)
             return response.writeHead(201).end()
 
         }
@@ -55,6 +60,7 @@ export const routes = [
                 description: request.description,
             }
 
+            database.insert('tasks', task)
             return response.writeHead(201).end()
 
         }

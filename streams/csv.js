@@ -18,7 +18,7 @@ line.on("line", (data) => {
         firstLine = false
         return
     }
-    database.insert('tasks', {
+    database.insert('file', {
         id: randomUUID(),
         title: csv[0],
         description: csv[1],
