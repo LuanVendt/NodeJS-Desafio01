@@ -3,19 +3,17 @@ import { SourceMap } from 'node:module'
 
 const databasePath = new URL('../db.json', import.meta.url)
 
-console.log(databasePath)
-
 export class Database {
     #database = {}
 
     constructor() {
         fs.readFile(databasePath, 'utf8')
-        .then(date => {
-            this.#database = JSON.parse(date)
-        })
-        .catch(() => {
-            this.#persist()
-        })
+            .then(date => {
+                this.#database = JSON.parse(date)
+            })
+            .catch(() => {
+                this.#persist()
+            })
     }
 
     #persist() {
@@ -25,7 +23,7 @@ export class Database {
     select(table, search) {
         let data = this.#database[table] ?? []
 
-        if(search) {
+        if (search) {
             data = data.filter(row => {
                 return Object.entries(search).some(([key, value]) => {
                     return row[key].toLowerCase().includes(value.toLowerCase())
@@ -52,7 +50,7 @@ export class Database {
     delete(table, id) {
         const rowIndex = this.#database[table].findIndex(row => row.id == id)
 
-        if(rowIndex > -1){
+        if (rowIndex > -1) {
             this.#database[table].splice(rowIndex, 1)
             this.#persist()
         }
@@ -61,7 +59,7 @@ export class Database {
     update(table, id, data) {
         const rowIndex = this.#database[table].findIndex(row => row.id == id)
 
-        if(rowIndex > -1){
+        if (rowIndex > -1) {
             this.#database[table][rowIndex] = { id, ...data }
             this.#persist()
         }

@@ -4,7 +4,10 @@ import { Http2ServerRequest } from 'node:http2';
 import { json } from './middlewares/json.js';
 import { routes } from './routes.js';
 import { extractQueryParams } from './utils/extract-query-params.js';
+import multer from 'multer';
+import multerConfig from './config/multer.js';
 
+const upload = multer(multerConfig);
 
 //Common JS => require //Não usa tanto mais
 //Esmodules => import/export
@@ -56,12 +59,9 @@ import { extractQueryParams } from './utils/extract-query-params.js';
 
 
 
-const server = http.createServer(async(request, response) => {
+const server = http.createServer(async (request, response) => {
     const { method, url } = request
 
-
-    await json(request, response)
-    
     const route = routes.find(route => {
         return route.method == method && route.path.test(url)
     })
@@ -75,6 +75,16 @@ const server = http.createServer(async(request, response) => {
         request.params = params
         request.query = query ? extractQueryParams(query) : {}
 
+        // Verificar se é uma rota que requer upload de arquivo CSV
+        if (route.requiresCsvUpload) {
+            return upload.single('file')(request, response, () => {
+                //console.log(request)
+                // Executar o manipulador da rota depois de lidar com o upload do arquivo
+                return route.handler(request, response);
+            });
+        }
+
+        await json(request, response)
 
         return route.handler(request, response)
     }

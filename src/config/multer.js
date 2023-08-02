@@ -1,11 +1,16 @@
 import multer from 'multer';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import crypto from 'crypto';
 
+// Obter o diretório atual do módulo
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const storageTypes = multer.diskStorage({
-  destination: path.resolve('D:/Treinamento/Ignite/nodejs/NodeJS-Desafio01/src/config', '..', '..', 'tmp', 'uploads'),
+  destination: path.resolve(__dirname, '..', '..', 'tmp', 'uploads'), // Corrigindo o caminho do diretório de destino
   filename: (req, file, cb) => {
     crypto.randomBytes(16, (err, res) => {
+
       if (err) return cb(err);
 
       file.extension = path.extname(file.originalname).replace('.', '');
@@ -15,10 +20,12 @@ const storageTypes = multer.diskStorage({
   },
 });
 
-export default {
-  dest: path.resolve('D:/Treinamento/Ignite/nodejs/NodeJS-Desafio01/src/config', '..', '..', 'tmp', 'uploads'),
+const uploadConfig = {
+  dest: path.resolve(__dirname, '..', '..', 'tmp', 'uploads'), // Corrigindo o caminho do diretório de destino
   storage: storageTypes,
   limits: {
     fileSize: 2 * 1024 * 1024,
   },
 };
+
+export default uploadConfig;
